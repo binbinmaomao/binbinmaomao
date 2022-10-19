@@ -24,6 +24,7 @@ public class DownLoad {
 	
 	@RequestMapping("/download/sun")
 	public String  downLoad(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		//改修
 		String path= request.getServletContext().getRealPath("/file/sunxiaobin.png");
 		//String path = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\springDay09\\file\\sunxiabin.png";
 		//String path = request.getRequestURL().toString();
