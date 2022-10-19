@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--扫描包-->
+    <context:component-scan base-package="cn.xiaobin"></context:component-scan>
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+     
+     <!-- 
+      第七节课 视图解析器viewReslover
+      一般我们的jsp会放到WEB-INF的路径下，为了访问安全，放到WEB-INF路径下后，访问就会受到权限
+     试图解析器就是简化书写的URL路径
+     
+      -->
+	<bean id="resourceViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <!-- 
+    第八课 视图控制器 （立即访问）
+    做了一下配置就不需要在controller里面做映射，直接访问就可以
+    path就是访问的路径，view-name就是访问的jsp的名字
+    例如：http://localhost:8080/ 就可以访问到index.jsp
+         http://localhost:8080/rest 就可以直接访问到rest.jsp
+     -->
+    <mvc:view-controller path="/" view-name="/index"/>
+    <mvc:view-controller path="/rest" view-name="/rest"/>
+   	<mvc:view-controller path="/role" view-name="/role"/>
+ 	<mvc:view-controller path="/download" view-name="/download"/>
+ 	
+ 	<!-- 配置文件解析器对象,要求id名称必须是multipartResolver,因为DispatcherServlet源码中默认用的是它 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <property name="maxUploadSize" value="13945660"/>
+	    <property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		
+			<bean class="cn.xiaobin.interceptor.interceptors" id="interceptor"></bean>
+		
+	</mvc:interceptors> 
+	
+	<mvc:resources location="/static/**" mapping="/static/"></mvc:resources>	
+	     
+	
+</beans>
